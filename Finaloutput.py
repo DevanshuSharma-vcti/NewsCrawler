@@ -5,7 +5,9 @@ from pathlib import Path
 import smtplib
 import traceback
 import re
-# from NordCountry import connect_nord_vpn
+from datetime import datetime
+
+# from NordCountry import connect_nord_ vpn
 # from NordDiss import disconnect_nord_vpn
 
 # connect_nord_vpn("United States")
@@ -36,56 +38,56 @@ def send_email(subject, message, recipient_email):
     except Exception as e:
         print(f"Error sending email to {recipient_email}: {str(e)}")
 
-for recipient in recipient_emails:
-    try:
-        import broadbandMoney
-    except Exception as e:
-        error_message = f"Error importing script1:\n{traceback.format_exc()}"
-        send_email("BroadbandMoney Script Failed", error_message, recipient)
-
-
-    try:
-        import USDAPr
-    except Exception as e:
-        error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
-        send_email("USDAPr Failed", error_message, recipient)
-
-
-    try:
-        import NTIA
-    except Exception as e:
-        error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
-        send_email("NTIA Failed", error_message, recipient)
-    try:
-        import InternetForAll
-    except Exception as e:
-        error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
-        send_email("InternetForAll Failed", error_message, recipient)
-
-
-    try:
-        import ncta
-    except Exception as e:
-        error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
-        send_email("NCTA Failed", error_message, recipient)
-
-    try:
-        import USDcomm
-    except Exception as e:
-        error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
-        send_email("USDcomm Failed", error_message, recipient)
-
-    try:
-        import epa
-    except Exception as e:
-        error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
-        send_email("EPA Failed", error_message, recipient)
-
-    try:
-        import usdTreasury
-    except Exception as e:
-        error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
-        send_email("usdTreasury Failed", error_message, recipient)
+# for recipient in recipient_emails:
+#     try:
+#         import broadbandMoney
+#     except Exception as e:
+#         error_message = f"Error importing script1:\n{traceback.format_exc()}"
+#         send_email("BroadbandMoney Script Failed", error_message, recipient)
+#
+#
+#     try:
+#         import USDAPr
+#     except Exception as e:
+#         error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
+#         send_email("USDAPr Failed", error_message, recipient)
+#
+#
+#     try:
+#         import NTIA
+#     except Exception as e:
+#         error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
+#         send_email("NTIA Failed", error_message, recipient)
+#     try:
+#         import InternetForAll
+#     except Exception as e:
+#         error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
+#         send_email("InternetForAll Failed", error_message, recipient)
+#
+#
+#     try:
+#         import ncta
+#     except Exception as e:
+#         error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
+#         send_email("NCTA Failed", error_message, recipient)
+#
+#     try:
+#         import USDcomm
+#     except Exception as e:
+#         error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
+#         send_email("USDcomm Failed", error_message, recipient)
+#
+#     try:
+#         import epa
+#     except Exception as e:
+#         error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
+#         send_email("EPA Failed", error_message, recipient)
+#
+#     try:
+#         import usdTreasury
+#     except Exception as e:
+#         error_message = f"Please check build log below for error:\n{traceback.format_exc()}"
+#         send_email("usdTreasury Failed", error_message, recipient)
 
 
 
@@ -120,6 +122,7 @@ df9 = pd.read_csv("ncta.csv")
 df3 = df3.drop_duplicates(subset='News heading')
 full_df = pd.concat([df2, df4, df5, df6, df7, df8, df9])
 unique_df = full_df.drop_duplicates(keep='first')
+
 print(df3)
 # del unique_df[unique_df.columns[-1]]
 # print(unique_df)
@@ -215,7 +218,7 @@ unique_df = unique_df[
     ['S_no', 'Agency', 'Date of announcement', 'State', 'Date of running', 'News Headings Short', 'News heading',
      'Matching keyword', 'links', 'Relevancy']]
 
-full_news = pd.concat([unique_df,df3], ignore_index=True)
+full_news = pd.concat([df3,unique_df], ignore_index=True)
 full_news['Date of running'] = pd.to_datetime(full_news['Date of running'])
 full_news['Date of running'] = full_news['Date of running'].dt.strftime('%m/%d/%Y')
 # unique_df.to_csv('NewsHeadings'+f'{TodaysDate}'+'.csv', index=False)
@@ -242,7 +245,9 @@ if obj.exists():
     news["State"] = news["State"].fillna("Article")
     news['News heading1'] = news['News heading'].str.lower()  # Convert to lowercase
     news = news.drop_duplicates(subset='News heading1', keep='first')
+    print(news[''])
     news["State"] = news["News heading"].apply(state_finder)
+    news.to_excel("check1.xlsx",index=False)
     # news["State"] = news["News heading"].apply(other_finder)
 
     news['Date of running'] = pd.to_datetime(news['Date of running'])
@@ -290,46 +295,89 @@ if obj.exists():
 
 
     # globals()[news] = expanded_news_df.copy()
-    # news = pd.merge(news, fipsDF[['State\xa0or equivalent', 'State FIPS']],left_on='State Name',right_on='State\xa0or equivalent', how='left')
-    news = pd.merge(expanded_news_df, fipsDF[['State\xa0or equivalent', 'State FIPS']],left_on='State', right_on='State\xa0or equivalent', how='left')
-    news['State FIPS'] = news['State FIPS'].apply(lambda x: '{:02d}'.format(int(x)) if pd.notna(x) and isinstance(x, (int, float)) else '')
+    run_date = datetime.now().strftime('%m/%d/%Y')
+
+    # Step 1: Before performing any operations, assign the run date to the entire DataFrame
+    news['date_of_running'] = run_date
+
+    # Merge operation and other transformations
+    news = pd.merge(expanded_news_df, fipsDF[['State\xa0or equivalent', 'State FIPS']], left_on='State',
+                    right_on='State\xa0or equivalent', how='left')
+    news['State FIPS'] = news['State FIPS'].apply(
+        lambda x: '{:02d}'.format(int(x)) if pd.notna(x) and isinstance(x, (int, float)) else '')
     news = news.explode('State').reset_index(drop=True)
-    print("Columns are :-",news.columns)
+    print("Columns are :-", news.columns)
     news.to_excel('FederalNewsHeadings.xlsx', index=False)
+
+    # Additional word replacement logic if needed
     word_to_replace2 = 'clg'
     replacement_string2 = 'Minority Colleges and Universities'
 
-    # Replace the word in the 'State' column (case-insensitive)
-    # unique_df['State'] = unique_df['State'].str.replace(r'\b{}\b'.format(word_to_replace2), replacement_string2,regex=True, flags=re.IGNORECASE)
+    # Replace in the 'State' column if needed
     print(unique_df['State'])
 
-    new_column_names = {'S-no':'S-no','News Headings Short':'News Headings Short','State FIPS': 'state_geoid', 'State': 'state_name/area of interest', 'Agency': 'agency',
-                        'Date of announcement': 'date_of_press_release', 'News heading': 'news_headings',
-                        'links': 'links', 'Date of running': 'date_of_running', 'Matching keyword': 'matching_keyword',
-                        'Relevancy': 'relevancy'}
+    new_column_names = {
+        'S-no': 'S-no',
+        'News Headings Short': 'News Headings Short',
+        'State FIPS': 'state_geoid',
+        'State': 'state_name/area of interest',
+        'Agency': 'agency',
+        'Date of announcement': 'date_of_press_release',
+        'News heading': 'news_headings',
+        'links': 'links',
+        'Date of running': 'date_of_running',
+        'Matching keyword': 'matching_keyword',
+        'Relevancy': 'relevancy'
+    }
+
     news = news.rename(columns=new_column_names)
-    # news = add_states_to_news(news)
     print("Columns are :-", news.columns)
 
-
-
-    colsToKeep = ['state_geoid','state_name/area of interest','agency','date_of_press_release','news_headings','links','date_of_running','matching_keyword','relevancy']
-    # # news[['state_geoid','state_name','agency','date_of_press_release','news_headings','links','date_of_running','matching_keyword','relevancy']]
+    colsToKeep = ['state_geoid', 'state_name/area of interest', 'agency', 'date_of_press_release', 'news_headings',
+                  'links', 'date_of_running', 'matching_keyword', 'relevancy']
     news["state_name/area of interest"] = news["state_name/area of interest"].fillna("Article")
-    # news = news.drop_duplicates(subset=['state_name/area of interest', 'news_headings'],keep='first')
-    news['state_name/area of interest'] = news['state_name/area of interest'].str.replace(r'\b{}\b'.format(word_to_replace), replacement_string, regex=True,flags=re.IGNORECASE)
-    news['state_name/area of interest'] = news['state_name/area of interest'].str.replace(r'\b{}\b'.format(word_to_replace2), replacement_string2,regex=True, flags=re.IGNORECASE)
-    # news = pd.merge(news, fipsDF[['State\xa0or equivalent', 'State FIPS']], left_on='state_name/area of interest',right_on='State\xa0or equivalent', how='left')
-    news = news.drop_duplicates(subset=['state_name/area of interest', 'news_headings'],keep='first')
+
+    # Replace words in the 'state_name/area of interest' column
+    news['state_name/area of interest'] = news['state_name/area of interest'].str.replace(
+        r'\b{}\b'.format(word_to_replace), replacement_string, regex=True, flags=re.IGNORECASE)
+    news['state_name/area of interest'] = news['state_name/area of interest'].str.replace(
+        r'\b{}\b'.format(word_to_replace2), replacement_string2, regex=True, flags=re.IGNORECASE)
+
+    # Drop duplicates based on 'state_name/area of interest' and 'news_headings'
+    news.to_excel("Check2_before_removing_duplicates.xlsx",index=False)
+    news = news.drop_duplicates(subset=['state_name/area of interest', 'news_headings'], keep='first')
+    news.to_excel("Check3_after_removing_duplicates.xlsx", index=False)
+    # Format the date of press release
     news['date_of_press_release'] = pd.to_datetime(news['date_of_press_release'])
     news['date_of_press_release'] = news['date_of_press_release'].dt.strftime('%m/%d/%Y')
-    news[colsToKeep].to_excel("federal_news_headings.xlsx",index=False)
-    news.to_excel("federal.xlsx",index=False)
 
-    # news.to_excel("federal_news_headings.xlsx",index=False)
+    # Write the transformed data to the Excel file
+    news[colsToKeep].to_excel("federal_news_headings_daily.xlsx", index=False)
 
-    # print(news.columns)
-    # , mode = 'a'
+    # Concatenate with the old data
+    n1 = news[colsToKeep]
+    news.to_excel("federal.xlsx", index=False)
+    # og = pd.read_excel("federal_news_headings_daily.xlsx")
+    #
+    # og = pd.concat([og, n1], ignore_index=True)
+    # og.drop_duplicates(subset=['state_name/area of interest', 'news_headings'], keep='first')
+
+    # og['news_headings'] = og['news_headings'].str.lower().str.strip()
+
+    # Save the updated DataFrame
+    # og.to_excel("federal_news_headings.xlsx", index=False)
+
+    newDF = pd.read_excel("federal_news_headings.xlsx")
+    print("Reading of file is done:", newDF)
+    final_df = pd.concat([newDF,n1], ignore_index=True)
+
+
+    final_df = final_df.drop_duplicates(subset=['state_geoid', 'state_name/area of interest', 'news_headings'], keep='first')
+    final_df['news_headings'] = final_df['news_headings'].str.lower().str.strip()
+    print("New data frame is:", final_df)
+
+    final_df.to_excel("federal_news_headings.xlsx", index=False)
+
 else:
     new_df.to_excel('FederalNewsHeadings.xlsx', index=False)
 # unique_df.to_csv( 'NewsHeadings.csv'.format(datetime.datetime.now().strftime("%Y-%m-%d)" )))

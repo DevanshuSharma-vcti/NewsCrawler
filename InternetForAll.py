@@ -62,7 +62,7 @@ def function():
     count = 1
     for div_row in Headingrows:
         heading = div_row.find_element(By.XPATH, f"(//div[@class='headline-banner'])[{count}]").text #headingText
-        print(heading)
+        print("Heading extracted is:",heading)
         headingL = div_row.find_element(By.TAG_NAME , 'a').get_attribute('href') #heading links
         get_title = driver.title #sourceOfNews
         dateExtracted = div_row.find_element(By.XPATH, f"(//div[@class='date-type'])[{count}]").text # publishing date
